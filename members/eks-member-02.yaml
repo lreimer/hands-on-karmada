@@ -34,7 +34,7 @@ cloudWatch:
 
 managedNodeGroups:
   - name: eks-member-02-ng
-    instanceType: t3.medium
+    instanceType: t3.large
     minSize: 1
     maxSize: 5
     desiredCapacity: 3

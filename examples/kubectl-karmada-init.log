@@ -1,0 +1,31 @@
+------------------------------------------------------------------------------------------------------
+ █████   ████   █████████   ███████████   ██████   ██████   █████████   ██████████     █████████
+░░███   ███░   ███░░░░░███ ░░███░░░░░███ ░░██████ ██████   ███░░░░░███ ░░███░░░░███   ███░░░░░███
+ ░███  ███    ░███    ░███  ░███    ░███  ░███░█████░███  ░███    ░███  ░███   ░░███ ░███    ░███
+ ░███████     ░███████████  ░██████████   ░███░░███ ░███  ░███████████  ░███    ░███ ░███████████
+ ░███░░███    ░███░░░░░███  ░███░░░░░███  ░███ ░░░  ░███  ░███░░░░░███  ░███    ░███ ░███░░░░░███
+ ░███ ░░███   ░███    ░███  ░███    ░███  ░███      ░███  ░███    ░███  ░███    ███  ░███    ░███
+ █████ ░░████ █████   █████ █████   █████ █████     █████ █████   █████ ██████████   █████   █████
+░░░░░   ░░░░ ░░░░░   ░░░░░ ░░░░░   ░░░░░ ░░░░░     ░░░░░ ░░░░░   ░░░░░ ░░░░░░░░░░   ░░░░░   ░░░░░
+------------------------------------------------------------------------------------------------------
+Karmada is installed successfully.
+
+Register Kubernetes cluster to Karmada control plane.
+
+Register cluster with 'Push' mode
+
+Step 1: Use "kubectl karmada join" command to register the cluster to Karmada control plane. --cluster-kubeconfig is kubeconfig of the member cluster.
+(In karmada)~# MEMBER_CLUSTER_NAME=$(cat ~/.kube/config  | grep current-context | sed 's/: /\n/g'| sed '1d')
+(In karmada)~# kubectl karmada --kubeconfig $PWD/.karmada/karmada-apiserver.config  join ${MEMBER_CLUSTER_NAME} --cluster-kubeconfig=$HOME/.kube/config
+
+Step 2: Show members of karmada
+(In karmada)~# kubectl --kubeconfig $PWD/.karmada/karmada-apiserver.config get clusters
+
+
+Register cluster with 'Pull' mode
+
+Step 1: Use "kubectl karmada register" command to register the cluster to Karmada control plane. "--cluster-name" is set to cluster of current-context by default.
+(In member cluster)~# kubectl karmada register 127.0.0.1:32443 --token ocr464.a7phtkk0fqhsg7t5 --discovery-token-ca-cert-hash sha256:5d53366cc91f024dfa29de20c6d31fd1708b9f875592023b58b1c9a6035600d8
+
+Step 2: Show members of karmada
+(In karmada)~# kubectl --kubeconfig $PWD/.karmada/karmada-apiserver.config get clusters

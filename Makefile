@@ -30,6 +30,7 @@ create-gke-member-01:
     	--monitoring=SYSTEM
 	@kubectl create clusterrolebinding cluster-admin-binding --clusterrole=cluster-admin --user=$$(gcloud config get-value core/account)
 	@kubectl cluster-info
+	@kubectl config view --raw --minify > .kube/gke-member-01.config
 
 bootstrap-flux2-member-01:
 	@flux bootstrap github \
@@ -42,6 +43,7 @@ bootstrap-flux2-member-01:
 
 create-eks-member-02:
 	@eksctl create cluster -f members/eks-member-02.yaml
+	@kubectl config view --raw --minify > .kube/eks-member-02.config
 
 bootstrap-flux2-member-02:
 	@flux bootstrap github \
@@ -69,6 +71,7 @@ create-gke-member-03:
     	--monitoring=SYSTEM
 	@kubectl create clusterrolebinding cluster-admin-binding --clusterrole=cluster-admin --user=$$(gcloud config get-value core/account)
 	@kubectl cluster-info
+	@kubectl config view --raw --minify > .kube/gke-member-03.config
 
 bootstrap-flux2-member-03:
 	@flux bootstrap github \
@@ -81,6 +84,7 @@ bootstrap-flux2-member-03:
 
 create-eks-member-04:
 	@eksctl create cluster -f members/eks-member-04.yaml
+	@kubectl config view --raw --minify > .kube/eks-member-04.config
 
 bootstrap-flux2-member-04:
 	@flux bootstrap github \

@@ -1,0 +1,22 @@
+apiVersion: policy.karmada.io/v1alpha1
+kind: OverridePolicy
+metadata:
+  name: nginx-weight-overridepolicy
+spec: 
+  resourceSelectors: 
+    - apiVersion: apps/v1
+      kind: Deployment
+      name: nginx
+  overrideRules: 
+  - targetCluster: 
+      clusterNames:
+      - gke-member-01
+    overriders:
+      labelsOverrider:
+      - operator: add
+        value:
+          cloud: gcp
+      plaintext:
+      - path: /spec/replicas
+        operator: replace
+        value: 4

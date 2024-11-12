@@ -12,6 +12,7 @@ GCP_PROJECT ?= cloud-native-experience-lab
 
 GCP_REGION_01 ?= europe-north1
 GCP_REGION_02 ?= europe-west1
+GCP_REGION_03 ?= us-east1
 
 create-gke-member-01:
 	@gcloud container clusters create gke-member-01 \
@@ -95,6 +96,34 @@ bootstrap-flux2-member-04:
 		--read-write-key \
 		--personal
 
+create-gke-member-05:
+	@gcloud container clusters create gke-member-05 \
+		--release-channel=regular \
+		--cluster-version=1.30 \
+		--region=$(GCP_REGION_03) \
+		--addons HttpLoadBalancing,HorizontalPodAutoscaling \
+		--workload-pool=$(GCP_PROJECT).svc.id.goog \
+		--num-nodes=1 \
+		--min-nodes=1 --max-nodes=5 \
+		--enable-autoscaling \
+		--autoscaling-profile=optimize-utilization \
+		--enable-vertical-pod-autoscaling \
+		--machine-type=e2-standard-4 \
+		--logging=SYSTEM \
+    	--monitoring=SYSTEM
+	@kubectl create clusterrolebinding cluster-admin-binding --clusterrole=cluster-admin --user=$$(gcloud config get-value core/account)
+	@kubectl cluster-info
+	@kubectl config view --raw --minify > .kube/gke-member-05.config
+
+bootstrap-flux2-member-05:
+	@flux bootstrap github \
+		--owner=$(GITHUB_USER) \
+		--repository=hands-on-karmada \
+		--branch=main \
+		--path=./members/gke-member-05 \
+		--read-write-key \
+		--personal
+
 delete-clusters: delete-gke-clusters delete-eks-clusters
 
 delete-eks-clusters:
@@ -106,3 +135,4 @@ delete-eks-clusters:
 delete-gke-clusters:
 	@gcloud container clusters delete gke-member-01 --region=$(GCP_REGION_01) --async --quiet
 	@gcloud container clusters delete gke-member-03 --region=$(GCP_REGION_02) --async --quiet
+	@gcloud container clusters delete gke-member-05 --region=$(GCP_REGION_03) --async --quiet

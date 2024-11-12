@@ -26,6 +26,11 @@ make bootstrap-flux2-member-03
 # create member-04 cluster on AWS
 make create-eks-member-04
 make bootstrap-flux2-member-04
+
+# create member-05 cluster on GCP
+make create-gke-member-05
+make bootstrap-flux2-member-05
+
 ```
 
 ### Bootstrapping Karmada Fleet
@@ -59,6 +64,13 @@ k --kubeconfig $PWD/.karmada/karmada-apiserver.config get clusters
 k --kubeconfig $PWD/.karmada/karmada-apiserver.config get cluster gke-member-01 -o yaml
 k --kubeconfig $PWD/.karmada/karmada-apiserver.config get cluster gke-member-03 -o yaml
 
+k karmada --kubeconfig $PWD/.karmada/karmada-apiserver.config join gke-member-05 \
+    --cluster-kubeconfig=$HOME/.kube/config \
+    --cluster-context=gke_cloud-native-experience-lab_us-east1_gke-member-05 \
+    --cluster-provider=gcp --cluster-region=us-east1
+
+k --kubeconfig $PWD/.karmada/karmada-apiserver.config get clusters
+k --kubeconfig $PWD/.karmada/karmada-apiserver.config get cluster gke-member-05 -o yaml
 ```
 
 ### Hello Karmada Nginx

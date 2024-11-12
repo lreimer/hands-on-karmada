@@ -44,7 +44,7 @@ bootstrap-gke-flux2:
 		--personal
 
 create-eks-cluster:
-	@eksctl create cluster -f eks-member-02.yaml
+	@eksctl create cluster -f members/eks-member-02.yaml
 
 bootstrap-eks-flux2:
 	@flux bootstrap github \

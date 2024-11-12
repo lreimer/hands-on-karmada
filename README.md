@@ -103,6 +103,8 @@ k karmada addons enable karmada-descheduler --karmada-kubeconfig=$PWD/.karmada/k
 ### Karmada and Flux
 
 
+### Federated HPA 
+
 
 ## Maintainer
 

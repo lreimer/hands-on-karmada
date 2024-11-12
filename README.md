@@ -9,8 +9,18 @@ Demo repository for Karmada showcase and conference talk.
 brew install eksctl
 kubectl krew install karmada
 
-make 
+# create member-01 cluster on GCP
+make create-gke-cluster
+make bootstrap-gke-flux2
+
+# create member-02 cluster on AWS
+make create-eks-cluster
+make bootstrap-eks-flux2
 ```
+
+### Hello Karmada
+
+
 
 ## Maintainer
 

@@ -17,11 +17,11 @@ iam:
     wellKnownPolicies:
       awsLoadBalancerController: true
 
-karpenter:
-  version: '1.0.7'
-  createServiceAccount: true
-  defaultInstanceProfile: 'KarpenterNodeInstanceProfile'
-  withSpotInterruptionQueue: true
+# karpenter:
+#   version: '1.0.7'
+#   createServiceAccount: true
+#   defaultInstanceProfile: 'KarpenterNodeInstanceProfile'
+#   withSpotInterruptionQueue: true
 
 vpc:
   clusterEndpoints:

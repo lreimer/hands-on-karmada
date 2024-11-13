@@ -107,12 +107,32 @@ KUBECONFIG=$PWD/.kube/gke-member-01.config k describe deploy nginx
 ### Cluster Failover and Workload Rebalancer
 
 ```bash
-k karmada addons enable karmada-descheduler --karmada-kubeconfig=$PWD/.karmada/karmada-apiserver.config
+# make sure to enable the karmada-metrics-adapter
+k karmada addons enable karmada-metrics-adapter --karmada-kubeconfig=$PWD/.karmada/karmada-apiserver.config
 
 ```
 
-
 ### Karmada and Flux
+
+```bash
+# first we need to apply the Flux2 CRDs to the Karmada control plane
+k apply -k github.com/fluxcd/flux2/manifests/crds\?ref=main --kubeconfig $PWD/.karmada/karmada-apiserver.config
+
+# Helm release propagation
+k apply -f examples/helmrelease-podinfo.yaml 
+k apply -f examples/helmrelease-propagation.yaml 
+k apply -f examples/helmrelease-override.yaml 
+
+KUBECONFIG=$PWD/.kube/gke-member-01.config k get pods
+KUBECONFIG=$PWD/.kube/eks-member-02.config k get pods
+
+# Kustomize propagation
+k apply -f examples/kustomize-podinfo.yaml 
+k apply -f examples/kustomize-propagation.yaml 
+
+KUBECONFIG=$PWD/.kube/gke-member-03.config k get pods
+KUBECONFIG=$PWD/.kube/eks-member-04.config k get pods
+```
 
 
 ### Federated HPA 

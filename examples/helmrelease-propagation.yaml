@@ -1,0 +1,29 @@
+apiVersion: policy.karmada.io/v1alpha1
+kind: PropagationPolicy
+metadata:
+  name: helm-repo
+spec:
+  resourceSelectors:
+    - apiVersion: source.toolkit.fluxcd.io/v1
+      kind: HelmRepository
+      name: podinfo
+  placement:
+    clusterAffinity:
+      clusterNames:
+        - gke-member-01
+        - eks-member-02
+---
+apiVersion: policy.karmada.io/v1alpha1
+kind: PropagationPolicy
+metadata:
+  name: helm-release
+spec:
+  resourceSelectors:
+    - apiVersion: helm.toolkit.fluxcd.io/v2
+      kind: HelmRelease
+      name: podinfo
+  placement:
+    clusterAffinity:
+      clusterNames:
+        - gke-member-01
+        - eks-member-02

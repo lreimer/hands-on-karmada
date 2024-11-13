@@ -1,0 +1,20 @@
+apiVersion: policy.karmada.io/v1alpha1
+kind: OverridePolicy
+metadata:
+  name: helm-override
+  namespace: default
+spec:
+  resourceSelectors:
+    - apiVersion: helm.toolkit.fluxcd.io/v2
+      kind: HelmRelease
+      name: podinfo
+  overrideRules:
+    - targetCluster:
+        clusterNames:
+          - gke-member-01
+      overriders:
+        plaintext:
+          - path: "/spec/values"
+            operator: add
+            value:
+              replicaCount: 2

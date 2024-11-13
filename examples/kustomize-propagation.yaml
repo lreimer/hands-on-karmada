@@ -1,0 +1,29 @@
+apiVersion: policy.karmada.io/v1alpha1
+kind: PropagationPolicy
+metadata:
+  name: git-repository-podinfo
+spec:
+  resourceSelectors:
+    - apiVersion: source.toolkit.fluxcd.io/v1
+      kind: GitRepository
+      name: podinfo
+  placement:
+    clusterAffinity:
+      clusterNames:
+        - gke-member-03
+        - eks-member-04
+---
+apiVersion: policy.karmada.io/v1alpha1
+kind: PropagationPolicy
+metadata:
+  name: kustomization-podinfo
+spec:
+  resourceSelectors:
+    - apiVersion: kustomize.toolkit.fluxcd.io/v1
+      kind: Kustomization
+      name: podinfo
+  placement:
+    clusterAffinity:
+      clusterNames:
+        - gke-member-03
+        - eks-member-04

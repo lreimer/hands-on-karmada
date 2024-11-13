@@ -7,6 +7,9 @@ spec:
     - apiVersion: apps/v1
       kind: Deployment
       name: nginx
+    - apiVersion: v1
+      kind: Service
+      name: nginx-service
   placement:
     clusterAffinity:
       fieldSelector:
@@ -14,13 +17,14 @@ spec:
         - key: region
           operator: NotIn
           values:
-          - europe-north1
-          - eu-north-1
+          - us-west1
         - key: region
           operator: In
           values:
           - eu-central-1
           - europe-west1
+          - europe-north1
+          - eu-north-1
     replicaScheduling:
       # possible options here are Duplicated and Divided
       replicaSchedulingType: Duplicated

@@ -43,6 +43,7 @@ k karmada --help
 # bootstrap the Karmada control plane
 k ctx rancher-desktop
 k karmada init --karmada-data=$PWD/.karmada --karmada-pki=$PWD/.karmada/pki --karmada-apiserver-advertise-address=127.0.0.1 --etcd-storage-mode=emptyDir --cert-external-ip=127.0.0.1
+cat examples/kubectl-karmada-init.log
 
 # check all components are running and control plane is up
 k get all -n karmada-system

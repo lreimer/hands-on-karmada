@@ -1,7 +1,7 @@
 apiVersion: policy.karmada.io/v1alpha1
 kind: PropagationPolicy
 metadata:
-  name: nginx-weight-propagation
+  name: nginx-static-weight-propagation
 spec:
   resourceSelectors:
     - apiVersion: apps/v1

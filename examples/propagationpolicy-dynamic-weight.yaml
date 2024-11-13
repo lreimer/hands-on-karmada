@@ -1,0 +1,27 @@
+apiVersion: policy.karmada.io/v1alpha1
+kind: PropagationPolicy
+metadata:
+  name: nginx-dynamic-weight-propagation
+spec:
+  resourceSelectors:
+    - apiVersion: apps/v1
+      kind: Deployment
+      name: nginx
+  placement:
+    clusterTolerations:
+      - effect: NoExecute
+        key: workload-rebalancer-test
+        operator: Exists
+        tolerationSeconds: 0
+    clusterAffinity:
+      clusterNames:
+        - gke-member-01
+        - eks-member-02
+        - gke-member-03
+        - eks-member-04
+    replicaScheduling:
+      replicaSchedulingType: Divided
+      replicaDivisionPreference: Weighted
+      weightPreference:
+        dynamicWeight: AvailableReplicas
+        

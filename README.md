@@ -49,20 +49,32 @@ k get all -n karmada-system
 k --kubeconfig $PWD/.karmada/karmada-apiserver.config get all 
 k --kubeconfig $PWD/.karmada/karmada-apiserver.config get clusters
 
-# join the member GKE clusters
+# join the member clusters
 k karmada --kubeconfig $PWD/.karmada/karmada-apiserver.config join gke-member-01 \
     --cluster-kubeconfig=$HOME/.kube/config \
     --cluster-context=gke_cloud-native-experience-lab_europe-north1_gke-member-01 \
     --cluster-provider=gcp --cluster-region=europe-north1
+
+k karmada --kubeconfig $PWD/.karmada/karmada-apiserver.config join eks-member-02 \
+    --cluster-kubeconfig=$HOME/.kube/config \
+    --cluster-context=mario-leander.reimer@eks-member-02.eu-north-1.eksctl.io \
+    --cluster-provider=aws --cluster-region=eu-north-1
 
 k karmada --kubeconfig $PWD/.karmada/karmada-apiserver.config join gke-member-03 \
     --cluster-kubeconfig=$HOME/.kube/config \
     --cluster-context=gke_cloud-native-experience-lab_europe-west1_gke-member-03 \
     --cluster-provider=gcp --cluster-region=europe-west1
 
+k karmada --kubeconfig $PWD/.karmada/karmada-apiserver.config join eks-member-04 \
+    --cluster-kubeconfig=$HOME/.kube/config \
+    --cluster-context=mario-leander.reimer@eks-member-04.eu-central-1.eksctl.io \
+    --cluster-provider=aws --cluster-region=eu-central-1
+
 k --kubeconfig $PWD/.karmada/karmada-apiserver.config get clusters
 k --kubeconfig $PWD/.karmada/karmada-apiserver.config get cluster gke-member-01 -o yaml
+k --kubeconfig $PWD/.karmada/karmada-apiserver.config get cluster eks-member-02 -o yaml
 k --kubeconfig $PWD/.karmada/karmada-apiserver.config get cluster gke-member-03 -o yaml
+k --kubeconfig $PWD/.karmada/karmada-apiserver.config get cluster eks-member-04 -o yaml
 
 k karmada --kubeconfig $PWD/.karmada/karmada-apiserver.config join gke-member-05 \
     --cluster-kubeconfig=$HOME/.kube/config \

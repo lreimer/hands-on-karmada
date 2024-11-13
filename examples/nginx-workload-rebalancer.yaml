@@ -9,3 +9,5 @@ spec:
     - apiVersion: apps/v1
       kind: Deployment
       name: nginx
+      # need to specify namespace, or reference binding not found
+      namespace: default

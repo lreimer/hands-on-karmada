@@ -114,7 +114,18 @@ KUBECONFIG=$PWD/.karmada/karmada-apiserver.config k apply -f examples/propagatio
 # make sure to enable the karmada-metrics-adapter
 k karmada addons enable karmada-metrics-adapter --karmada-kubeconfig=$PWD/.karmada/karmada-apiserver.config
 
+export KUBECONFIG=$PWD/.karmada/karmada-apiserver.config 
 
+k apply -f examples/nginx-deployment.yaml
+k apply -f examples/propagationpolicy-dynamic-weight.yaml
+k karmada get deploy
+
+# taint cluster to simulate cluster fail-over
+k karmada taint clusters gke-member-03 workload-rebalancer-test:NoExecute
+k karmada taint clusters gke-member-03 workload-rebalancer-test:NoExecute-
+
+k apply -f examples/nginx-workload-rebalancer.yaml
+k get workloadrebalancers.apps.karmada.io nginx-rebalancer -o yaml
 ```
 
 ### Karmada and Flux
@@ -138,7 +149,6 @@ k apply -f examples/kustomize-propagation.yaml
 KUBECONFIG=$PWD/.kube/gke-member-03.config k get pods
 KUBECONFIG=$PWD/.kube/eks-member-04.config k get pods
 ```
-
 
 ### Federated HPA 
 

@@ -1,0 +1,17 @@
+apiVersion: autoscaling.karmada.io/v1alpha1
+kind: CronFederatedHPA
+metadata:
+  name: nginx-cronfhpa
+  namespace: default
+spec:
+   scaleTargetRef:
+      apiVersion: autoscaling.karmada.io/v1alpha1
+      kind: FederatedHPA
+      name: nginx-fhpa
+   rules:
+   - name: "scale-up"
+     schedule: "*/2 * * * *"
+     targetMinReplicas: 5
+   - name: "scale-down"
+     schedule: "*/3 * * * *"
+     targetMinReplicas: 5

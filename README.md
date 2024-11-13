@@ -111,8 +111,8 @@ KUBECONFIG=$PWD/.karmada/karmada-apiserver.config k apply -f examples/propagatio
 ### Cluster Failover and Workload Rebalancer
 
 ```bash
-# make sure to enable the karmada-metrics-adapter
-k karmada addons enable karmada-metrics-adapter --karmada-kubeconfig=$PWD/.karmada/karmada-apiserver.config
+# make sure to enable the karmada-descheduler
+k karmada addons enable karmada-descheduler --karmada-kubeconfig=$PWD/.karmada/karmada-apiserver.config
 
 export KUBECONFIG=$PWD/.karmada/karmada-apiserver.config 
 
@@ -152,6 +152,23 @@ KUBECONFIG=$PWD/.kube/eks-member-04.config k get pods
 
 ### Federated HPA 
 
+```bash
+# make sure to enable the metrics adapter addon to collect metrics
+# from all member clusters
+k karmada addons enable karmada-metrics-adapter --karmada-kubeconfig=$PWD/.karmada/karmada-apiserver.config
+
+export KUBECONFIG=$PWD/.karmada/karmada-apiserver.config 
+
+k apply -f examples/nginx-deployment.yaml
+k apply -f examples/propagation-static-weight.yaml
+
+k apply -f examples/nginx-federated-hpa.yaml
+k apply -f examples/nginx-federated-cron.yaml
+
+# TODO load test demo
+# see https://karmada.io/docs/userguide/network/working-with-submariner
+# see https://karmada.io/docs/userguide/service/multi-cluster-ingress
+```
 
 ## Maintainer
 

@@ -18,7 +18,7 @@ iam:
       awsLoadBalancerController: true
 
 # karpenter:
-#   version: '1.0.7'
+#   version: 'v0.37.0'
 #   createServiceAccount: true
 #   defaultInstanceProfile: 'KarpenterNodeInstanceProfile'
 #   withSpotInterruptionQueue: true

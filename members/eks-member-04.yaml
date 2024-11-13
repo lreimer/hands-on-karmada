@@ -6,7 +6,7 @@ metadata:
   region: eu-central-1
   version: '1.30'
   tags:
-    karpenter.sh/discovery: eks-member-02
+    karpenter.sh/discovery: eks-member-04
 
 iam:
   withOIDC: true
@@ -17,11 +17,11 @@ iam:
     wellKnownPolicies:
       awsLoadBalancerController: true
 
-karpenter:
-  version: '1.0.7'
-  createServiceAccount: true
-  defaultInstanceProfile: 'KarpenterNodeInstanceProfile'
-  withSpotInterruptionQueue: true
+# karpenter:
+#   version: 'v0.37.0'
+#   createServiceAccount: true
+#   defaultInstanceProfile: 'KarpenterNodeInstanceProfile'
+#   withSpotInterruptionQueue: true
 
 vpc:
   clusterEndpoints:
@@ -33,7 +33,7 @@ cloudWatch:
     enableTypes: ["*"]
 
 managedNodeGroups:
-  - name: eks-member-02-ng
+  - name: eks-member-04-ng
     instanceType: t3.large
     minSize: 1
     maxSize: 5

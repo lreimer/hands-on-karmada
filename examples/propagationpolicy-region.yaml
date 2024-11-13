@@ -12,12 +12,12 @@ spec:
       fieldSelector:
         matchExpressions:
         - key: region
-          operator: In
+          operator: NotIn
           values:
           - europe-north1
           - eu-north-1
         - key: region
-          operator: NotIn
+          operator: In
           values:
           - eu-central-1
           - europe-west1

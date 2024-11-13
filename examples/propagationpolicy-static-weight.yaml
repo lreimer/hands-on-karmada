@@ -26,7 +26,6 @@ spec:
       replicaSchedulingType: Divided
       replicaDivisionPreference: Weighted
       weightPreference:
-        # dynamicWeight: AvailableReplicas
         staticWeightList:
           - targetCluster:
               clusterNames:

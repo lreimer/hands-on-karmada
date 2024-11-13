@@ -93,15 +93,19 @@ KUBECONFIG=$PWD/.karmada/karmada-apiserver.config k apply -f examples/nginx-depl
 KUBECONFIG=$PWD/.karmada/karmada-apiserver.config k get all
 KUBECONFIG=$PWD/.karmada/karmada-apiserver.config k karmada get deploy
 
-KUBECONFIG=$PWD/.karmada/karmada-apiserver.config k apply -f examples/propagationpolicy-weight.yaml
+KUBECONFIG=$PWD/.karmada/karmada-apiserver.config k apply -f examples/propagationpolicy-static-weight.yaml
 KUBECONFIG=$PWD/.karmada/karmada-apiserver.config k karmada get deploy
 KUBECONFIG=$PWD/.kube/gke-member-01.config k get pods
 KUBECONFIG=$PWD/.kube/gke-member-03.config k get pods
 
-KUBECONFIG=$PWD/.karmada/karmada-apiserver.config k apply -f examples/overridepolicy-weight.yaml
+KUBECONFIG=$PWD/.karmada/karmada-apiserver.config k apply -f examples/nginx-overridepolicy-weight.yaml
 KUBECONFIG=$PWD/.karmada/karmada-apiserver.config k karmada get deploy
 KUBECONFIG=$PWD/.kube/gke-member-01.config k get pods
 KUBECONFIG=$PWD/.kube/gke-member-01.config k describe deploy nginx
+
+# more demos
+KUBECONFIG=$PWD/.karmada/karmada-apiserver.config k apply -f examples/propagationpolicy-dynamic-weight.yaml
+KUBECONFIG=$PWD/.karmada/karmada-apiserver.config k apply -f examples/propagationpolicy-region-field.yaml
 ```
 
 ### Cluster Failover and Workload Rebalancer
@@ -109,6 +113,7 @@ KUBECONFIG=$PWD/.kube/gke-member-01.config k describe deploy nginx
 ```bash
 # make sure to enable the karmada-metrics-adapter
 k karmada addons enable karmada-metrics-adapter --karmada-kubeconfig=$PWD/.karmada/karmada-apiserver.config
+
 
 ```
 

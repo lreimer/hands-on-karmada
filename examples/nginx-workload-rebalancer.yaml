@@ -1,7 +1,7 @@
 apiVersion: apps.karmada.io/v1alpha1
 kind: WorkloadRebalancer
 metadata:
-  name: demo
+  name: nginx-rebalancer
 spec:
   # Update and auto-delete WorkloadRebalancer
   # ttlSecondsAfterFinished: 300

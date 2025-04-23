@@ -10,8 +10,8 @@ spec:
       name: nginx-fhpa
    rules:
    - name: "scale-up"
-     schedule: "*/2 * * * *"
-     targetMinReplicas: 5
+     schedule: "0-58/2 * * * *"
+     targetMinReplicas: 7
    - name: "scale-down"
-     schedule: "*/3 * * * *"
-     targetMinReplicas: 5
+     schedule: "1-59/2 * * * *"
+     targetMinReplicas: 3

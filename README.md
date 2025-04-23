@@ -30,7 +30,6 @@ make bootstrap-flux2-member-04
 # create member-05 cluster on GCP
 make create-gke-member-05
 make bootstrap-flux2-member-05
-
 ```
 
 ### Bootstrapping Karmada Fleet
@@ -105,7 +104,10 @@ KUBECONFIG=$PWD/.kube/gke-member-01.config k get pods
 KUBECONFIG=$PWD/.kube/gke-member-01.config k describe deploy nginx
 
 # more demos
+KUBECONFIG=$PWD/.karmada/karmada-apiserver.config k delete -f examples/nginx-overridepolicy-weight.yaml
 KUBECONFIG=$PWD/.karmada/karmada-apiserver.config k apply -f examples/propagationpolicy-dynamic-weight.yaml
+
+KUBECONFIG=$PWD/.karmada/karmada-apiserver.config k delete -f examples/propagationpolicy-dynamic-weight.yaml
 KUBECONFIG=$PWD/.karmada/karmada-apiserver.config k apply -f examples/propagationpolicy-region-field.yaml
 ```
 

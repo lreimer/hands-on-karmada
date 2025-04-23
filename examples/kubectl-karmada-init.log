@@ -15,17 +15,28 @@ Register Kubernetes cluster to Karmada control plane.
 Register cluster with 'Push' mode
 
 Step 1: Use "kubectl karmada join" command to register the cluster to Karmada control plane. --cluster-kubeconfig is kubeconfig of the member cluster.
-(In karmada)~# MEMBER_CLUSTER_NAME=$(cat ~/.kube/config  | grep current-context | sed 's/: /\n/g'| sed '1d')
-(In karmada)~# kubectl karmada --kubeconfig $PWD/.karmada/karmada-apiserver.config  join ${MEMBER_CLUSTER_NAME} --cluster-kubeconfig=$HOME/.kube/config
+(In karmada)~# MEMBER_CLUSTER_NAME=$(cat ~/.kube/config  | grep current-context | sed 's/: /\n/g'| sed '1d'| tr -d "\"'")
+(In karmada)~# kubectl karmada --kubeconfig /Users/mario-leander.reimer/Projekte/hands-on-karmada/.karmada/karmada-apiserver.config  join ${MEMBER_CLUSTER_NAME} --cluster-kubeconfig=$HOME/.kube/config
 
 Step 2: Show members of karmada
-(In karmada)~# kubectl --kubeconfig $PWD/.karmada/karmada-apiserver.config get clusters
+(In karmada)~# kubectl --kubeconfig /Users/mario-leander.reimer/Projekte/hands-on-karmada/.karmada/karmada-apiserver.config get clusters
 
 
 Register cluster with 'Pull' mode
 
-Step 1: Use "kubectl karmada register" command to register the cluster to Karmada control plane. "--cluster-name" is set to cluster of current-context by default.
-(In member cluster)~# kubectl karmada register 127.0.0.1:32443 --token ocr464.a7phtkk0fqhsg7t5 --discovery-token-ca-cert-hash sha256:5d53366cc91f024dfa29de20c6d31fd1708b9f875592023b58b1c9a6035600d8
+Step 1: Create bootstrap token and generate the 'kubectl karmada register' command which will be used later.
+~# kubectl karmada token create --print-register-command --kubeconfig=/Users/mario-leander.reimer/Projekte/hands-on-karmada/.karmada/karmada-apiserver.config
+This command will generate a registration command similar to:
 
-Step 2: Show members of karmada
-(In karmada)~# kubectl --kubeconfig $PWD/.karmada/karmada-apiserver.config get clusters
+kubectl karmada register 127.0.0.1:5443 --token t8xfio.640u9gp9obc72v5d --discovery-token-ca-cert-hash sha256:9cfa542ff48f43793d1816b1dd0a78ad574e349d8f6e005e6e32e8ab528e4244
+
+Step 2: Use the output from Step 1 to register the cluster to the Karmada control plane.
+You need to specify the target member cluster by flag '--kubeconfig'
+~# kubectl karmada register 127.0.0.1:5443 --token t8xfio.640u9gp9obc72v5d --discovery-token-ca-cert-hash sha256:9cfa542ff48f43793d1816b1dd0a78ad574e349d8f6e005e6e32e8ab528e4244 --kubeconfig=<path-to-member-cluster-kubeconfig>
+
+Step 3: Show members of Karmada.
+~# kubectl karmada --kubeconfig=/Users/mario-leander.reimer/Projekte/hands-on-karmada/.karmada/karmada-apiserver.config get clusters
+
+The kubectl karmada register command has several optional parameters for setting the properties of the member cluster. For more details, run:
+
+~# kubectl karmada register --help
